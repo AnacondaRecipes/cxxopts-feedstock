@@ -1,8 +1,11 @@
-cmake -G "NMake Makefiles" -D CMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% -D CXXOPTS_BUILD_EXAMPLES=OFF %SRC_DIR%
+cmake %CMAKE_ARGS% -G Ninja -S . -B build -DCMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%" -DCMAKE_BUILD_TYPE=Release -DCXXOPTS_BUILD_EXAMPLES=OFF
 if errorlevel 1 exit 1
 
-nmake
+cmake --build build
 if errorlevel 1 exit 1
 
-nmake install
+ctest --test-dir build --output-on-failure
+if errorlevel 1 exit 1
+
+cmake --install build
 if errorlevel 1 exit 1
