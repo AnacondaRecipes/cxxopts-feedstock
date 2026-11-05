@@ -10,8 +10,7 @@ source:
   sha256: 841f49f2e045b9c6365997c2a8fbf76e6f215042dda4511a5bb04bc5ebc7f88a
 
 build:
-  number: 2
-  skip: true  # [osx and x86_64]
+  number: 0
   # The cxxopts library is header only, so we do not need
   # to export the compiler run-time libraries.
   # They are just needed during the build to perform some checks.
