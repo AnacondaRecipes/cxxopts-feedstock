@@ -9,5 +9,5 @@ cmake ${CMAKE_ARGS} -G Ninja -S . -B build \
   -DCMAKE_BUILD_TYPE=Release \
   -DCXXOPTS_BUILD_EXAMPLES=OFF
 cmake --build build
-  ctest --test-dir build --output-on-failure
+ctest --test-dir build --output-on-failure
 cmake --install build
