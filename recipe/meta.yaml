@@ -1,15 +1,16 @@
+{% set name = "cxxopts" %}
 {% set version = "3.2.1" %}
 
 package:
-  name: cxxopts
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://github.com/jarro2783/cxxopts/archive/v{{ version }}.tar.gz
+  url: https://github.com/jarro2783/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: 841f49f2e045b9c6365997c2a8fbf76e6f215042dda4511a5bb04bc5ebc7f88a
 
 build:
-  number: 1
+  number: 0
   # The cxxopts library is header only, so we do not need
   # to export the compiler run-time libraries.
   # They are just needed during the build to perform some checks.
@@ -22,16 +23,18 @@ requirements:
     - cmake
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
-    - make  # [unix]
+    - ninja-base
 
 test:
   commands:
     - test -f ${PREFIX}/include/cxxopts.hpp  # [unix]
     - test -f ${PREFIX}/lib/cmake/cxxopts/cxxopts-config.cmake  # [unix]
     - test -f ${PREFIX}/lib/cmake/cxxopts/cxxopts-config-version.cmake  # [unix]
-    - if exist %LIBRARY_PREFIX%\include\cxxopts.hpp (exit 0) else (exit 1)  # [win]
-    - if exist %LIBRARY_PREFIX%\lib\cmake\cxxopts-config.cmake (exit 0) else (exit 1)  # [win]
-    - if exist %LIBRARY_PREFIX%\lib\cmake\cxxopts-config-version.cmake (exit 0) else (exit 1)  # [win]
+    - test -f ${PREFIX}/lib/pkgconfig/cxxopts.pc  # [unix]
+    - if not exist %LIBRARY_PREFIX%\include\cxxopts.hpp exit 1  # [win]
+    - if not exist %LIBRARY_PREFIX%\lib\cmake\cxxopts\cxxopts-config.cmake exit 1  # [win]
+    - if not exist %LIBRARY_PREFIX%\lib\cmake\cxxopts\cxxopts-config-version.cmake exit 1  # [win]
+    - if not exist %LIBRARY_PREFIX%\lib\pkgconfig\cxxopts.pc exit 1  # [win]
 
 about:
   home: https://github.com/jarro2783/cxxopts
